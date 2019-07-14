@@ -1,0 +1,75 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.6.2/css/bulma.css" />
+</head>
+
+<body>
+    <section class="hero is-primary">
+        <div class="hero-body">
+            <div class="container">
+                <h1 class="title">
+                    Enter ip address to get the location!
+                </h1>
+            </div>
+        </div>
+    </section>
+    <section class="section">
+        <div class="container">
+            <div class="columns">
+                <div class="column is-offset-4 is-4">
+                    <form method="POST">
+                        {% csrf_token %}
+                        <div class="field has-addons">
+                            <div class="control is-expanded">
+                                {{ form.ipaddress }}
+                            </div>
+                            <div class="control">
+                                <button type="submit" class="button is-info">
+                                    Get Location
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section>
+        <div>
+        </div>
+    </section>
+    
+    <div> The IP Address [{{value}}] belongs to - {{city}}</div>
+    <div id="map"></div>
+
+    <footer class="footer">
+    </footer>
+</body>
+<style>
+   #map {
+     height: 400px;  
+     width: 100%;  
+    }
+ </style>
+<script>
+    function initMap() {
+        const lat = parseFloat('{{lat}}');
+        const lng = parseFloat('{{long}}');
+      var currentPlace = {lat, lng};
+      var map = new google.maps.Map(
+          document.getElementById('map'), {zoom: 4, center: currentPlace});
+      var marker = new google.maps.Marker({position: currentPlace, map: map});
+    }
+</script>
+<script async defer
+src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAihE13VvrSEmcNB9Up6wQ-Ttb09ca-Ts4&callback=initMap">
+</script>
+
+</html>
